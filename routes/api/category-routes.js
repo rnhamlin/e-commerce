@@ -21,8 +21,7 @@ router.get("/", (req, res) => {
 // GET /api/categories/id - find one specific category (ID MUST BE SPECIFIED)
 router.get("/:id", (req, res) => {
   // associated Product data
-  Category.findByPk((req.params.id)
-  ).then((categoryData) => {
+  Category.findByPk(req.params.id).then((categoryData) => {
     res.json(categoryData);
   });
 });
