@@ -1,12 +1,12 @@
 const router = require("express").Router();
+const { reset } = require("nodemon");
 const { Category, Product } = require("../../models");
 
 // The `/api/categories` endpoint
 //these are the 5 most basic routes
 
+// GET /api/categories - find all categories
 router.get("/", (req, res) => {
-  //get all
-  // find all categories
   // be sure to include its associated Products
   console.log("Get route /");
   Category.findAll({
@@ -18,39 +18,62 @@ router.get("/", (req, res) => {
   }).then((categoryData) => res.json(categoryData));
 });
 
+// GET /api/categories/id - find one specific category (ID MUST BE SPECIFIED)
 router.get("/:id", (req, res) => {
-  //get one - we need to specify which one, it can't be general
-  // find one category by its `id` value
-  // be sure to include its associated Products
-  console.log(req.params);
-  Category.findByPk(req.params.id).then((categoryData) => {
+  // associated Product data
+  Category.findByPk((req.params.id)
+  ).then((categoryData) => {
     res.json(categoryData);
   });
 });
 
+// POST /api/categories - create a new category
 router.post("/", (req, res) => {
-  // create a new category
-  //Sequelize statements--revisit modules
-  console.log(req.body);
-  Category.findByPk(req.body).then((categoryData) => {
-    res.json(categoryData);
-  });
+  Category.create({ category_name: req.body.category_name })
+    .then((CategoryData) => res.json(CategoryData))
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json(err);
+    });
 });
 
+// PUT /api/categories/id - update a category by its 'id' value
 router.put("/:id", (req, res) => {
-  // create x
-  // update a category by its `id` value
   console.log(req.params.id);
-  Category.findOne(req.body).then((CategoryData) => {
-    res.json(CategoryData);
-  });
+  Category.update(req.body, {
+    where: { id: req.params.id },
+  })
+    .then((CategoryData) => {
+      if (!CategoryData[0]) {
+        res.status(404).json({ message: "No Category found with this id" });
+        return;
+      }
+      res.json(CategoryData);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json(err);
+    });
 });
 
+// DEL /api/categories/id - delete a category by its `id` value
 router.delete("/:id", (req, res) => {
-  // delete a category by its `id` value
-  Category.findOne(req.params.id).then((CategoryData) => {
-    res.json(CategoryData);
-  });
+  Category.destroy({
+    where: {
+      id: req.params.id,
+    },
+  })
+    .then((CategoryData) => {
+      if (!CategoryData) {
+        res.status(404).json({ message: "No category found with this id" });
+        return;
+      }
+      res.json(CategoryData);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json(err);
+    });
 });
 
 module.exports = router;
