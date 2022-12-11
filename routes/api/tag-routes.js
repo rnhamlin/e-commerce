@@ -52,21 +52,22 @@ router.put("/:id", (req, res) => {
 });
 
 // DELETE /api/tags - delete a specific tag by its 'id' value
-router.delete("/:id", (req, res) => {});
-Tag.destroy({
-  where: {
-    id: req.params.id,
-  },
-})
-  .then((TagData) => {
-    if (!TagData) {
-      res.status(404).json({ message: "No Tag found with this id" });
-      return;
-    }
-    res.json(TagData);
+router.delete("/:id", (req, res) => {
+  Tag.destroy({
+    where: {
+      id: req.params.id,
+    },
   })
-  .catch((err) => {
-    res.status(500).json(err);
-  });
+    .then((TagData) => {
+      if (!TagData) {
+        res.status(404).json({ message: "No Tag found with this id" });
+        return;
+      }
+      res.json(TagData);
+    })
+    .catch((err) => {
+      res.status(500).json(err);
+    });
+});
 
 module.exports = router;
