@@ -49,4 +49,4 @@ TBA
 
 # Links
 
-GitHub repo:
+GitHub repo: https://github.com/rnhamlin/e-commerce
