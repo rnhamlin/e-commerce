@@ -36,7 +36,9 @@ THEN I am able to successfully create, update, and delete data in my database
 
 ## Demo Video
 
-TBA
+1. Initial Setup and Category Routes Testing: https://watch.screencastify.com/v/TTboYRwYGOk4dWscXf6f
+2. Tag Routes Testing: https://watch.screencastify.com/v/sQp2iHjXoFpTFk8fiLYr
+3. Product Routes Testing: https://watch.screencastify.com/v/3z4l1rB7J7PI3Ej3Sfuh
 
 ## Instructions
 
